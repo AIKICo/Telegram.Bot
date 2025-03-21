@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set.<para>Returns: </para></summary>
+/// <summary>Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetStickerSetThumbnailRequest() : FileRequestBase<bool>("setStickerSetThumbnail"), IUserTargetable
 {
@@ -10,6 +10,7 @@ public partial class SetStickerSetThumbnailRequest() : FileRequestBase<bool>("se
     public required string Name { get; set; }
 
     /// <summary>User identifier of the sticker set owner</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 

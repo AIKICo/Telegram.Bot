@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Linq;
 
+#pragma warning disable IDE0290 // Use primary constructor
+
 namespace Telegram.Bot.Types
 {
     public partial class Message
@@ -47,6 +49,17 @@ namespace Telegram.Bot.Types
             ? $"https://t.me/c/{(-1000000000000 - Chat.Id).ToString(CultureInfo.InvariantCulture)}/{Id.ToString(CultureInfo.InvariantCulture)}"
             : $"https://t.me/{Chat.Username}/{Id.ToString(CultureInfo.InvariantCulture)}"
             : null;
+
+        /// <summary><see langword="true"/> if it's a service message, <see langword="false"/> if it's a content message</summary>
+        [JsonIgnore]
+        public bool IsServiceMessage => this switch
+        {
+            { Text: { } } or { Animation: { } } or { Audio: { } } or { Document: { } } or { PaidMedia: { } } or
+            { Photo: { } } or { Sticker: { } } or { Story: { } } or { Video: { } } or { VideoNote: { } } or { Voice: { } } or
+            { Contact: { } } or { Dice: { } } or { Game: { } } or { Poll: { } } or { Venue: { } } or { Location: { } } or
+            { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } => false,
+            _ => true
+        };
     }
 
     public partial class Chat
@@ -91,6 +104,20 @@ namespace Telegram.Bot.Types
             CanSendMessages = CanSendAudios = CanSendDocuments = CanSendPhotos = defaultValue;
             CanSendVideos = CanSendVideoNotes = CanSendVoiceNotes = CanSendPolls = CanSendOtherMessages = defaultValue;
             CanAddWebPagePreviews = CanChangeInfo = CanInviteUsers = CanPinMessages = CanManageTopics = defaultValue;
+        }
+    }
+
+    public partial class ChatAdministratorRights
+    {
+        /// <summary>Initializes a new <see cref="ChatAdministratorRights"/> instance with all fields set to <see langword="false"/>.</summary>
+        public ChatAdministratorRights() { }
+        /// <summary>Initializes a new <see cref="ChatAdministratorRights"/> instance with all <c>Can*</c> fields set to the specified value.</summary>
+        /// <param name="defaultValue"><see langword="true"/> to allow all permissions by default</param>
+        public ChatAdministratorRights(bool defaultValue)
+        {
+            CanManageChat = CanDeleteMessages = CanManageVideoChats = CanRestrictMembers = CanPromoteMembers = defaultValue;
+            CanChangeInfo = CanInviteUsers = CanPostStories = CanEditStories = CanDeleteStories = defaultValue;
+            CanPostMessages = CanEditMessages = CanPinMessages = CanManageTopics = defaultValue;
         }
     }
 
@@ -405,6 +432,27 @@ namespace Telegram.Bot.Types
             /// <param name="chatIsChannel">Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/> to request a group or a supergroup chat.</param>
             public static KeyboardButton WithRequestChat(string text, int requestId, bool chatIsChannel)
                 => new(text) { RequestChat = new(requestId, chatIsChannel) };
+        }
+    }
+
+    namespace Passport
+    {
+        public partial class IdDocumentData
+        {
+            /// <summary>Date of expiry if available</summary>
+            public DateTime? Expiry => DateTime.TryParseExact(ExpiryDate, "dd.MM.yyyy", provider: null, DateTimeStyles.None, out var result) ? result : null;
+        }
+
+        public partial class PersonalDetails
+        {
+            /// <summary>Date of birth</summary>
+            public DateTime Birthday => DateTime.ParseExact(BirthDate, "dd.MM.yyyy", provider: null, DateTimeStyles.None);
+        }
+
+        public partial class PassportScopeElementOne
+        {
+            /// <summary>Initializes a new instance of the <see cref="PassportScopeElementOne"/> class with the specified type</summary>
+            public PassportScopeElementOne(EncryptedPassportElementType type) => Type = type;
         }
     }
 }

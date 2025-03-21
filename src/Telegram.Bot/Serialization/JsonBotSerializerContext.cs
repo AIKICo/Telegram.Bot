@@ -50,8 +50,8 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(CreateChatSubscriptionInviteLinkRequest))]
 [JsonSerializable(typeof(EditChatSubscriptionInviteLinkRequest))]
 [JsonSerializable(typeof(RevokeChatInviteLinkRequest))]
-[JsonSerializable(typeof(ApproveChatJoinRequest))]
-[JsonSerializable(typeof(DeclineChatJoinRequest))]
+[JsonSerializable(typeof(ApproveChatJoinRequestRequest))]
+[JsonSerializable(typeof(DeclineChatJoinRequestRequest))]
 [JsonSerializable(typeof(SetChatPhotoRequest))]
 [JsonSerializable(typeof(DeleteChatPhotoRequest))]
 [JsonSerializable(typeof(SetChatTitleRequest))]
@@ -272,6 +272,12 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(PassportElementErrorTranslationFile))]
 [JsonSerializable(typeof(PassportElementErrorTranslationFiles))]
 [JsonSerializable(typeof(PassportElementErrorUnspecified))]
+[JsonSerializable(typeof(PassportScope))]
+[JsonSerializable(typeof(PassportScopeElementOneOfSeveral))]
+[JsonSerializable(typeof(PersonalDetails))]
+[JsonSerializable(typeof(ResidentialAddress))]
+[JsonSerializable(typeof(IdDocumentData))]
+[JsonSerializable(typeof(Credentials))]
 [JsonSerializable(typeof(FileBase))]
 public partial class JsonBotSerializerContext : JsonSerializerContext;
 #endif
